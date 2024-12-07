@@ -22,22 +22,16 @@ def get_ira_risk_score(hypotension, age, fevg, diabete, hb, bicar, lactates, efg
     return score
 
 
-col1, col2 = st.columns(2)
+hypotension = st.radio("Hypotension", (False, True), horizontal=True)
+age = st.radio("Age > 75", (False, True), horizontal=True)
+fevg = st.radio("FEGV < 30%", (False, True), horizontal=True)
+diabete = st.radio("Diabete", (False, True), horizontal=True)
+hb = st.radio("Hb < 10 g/dl", (False, True), horizontal=True)
+bicar = st.radio("Bicar < 10 mmol/l", (False, True), horizontal=True)
+lactates = st.radio("Lactates > 5 mmol/l", (False, True), horizontal=True)
+efgr = st.selectbox("eGFR (ml/mn/1,73 m2", (">= 60", "40 to 60", "20 to 40", "<20"))
 
-with col1:
+score = get_ira_risk_score(hypotension, age, fevg, diabete, hb, bicar, lactates, efgr)
 
-    hypotension = st.radio("Hypotension", (False, True), horizontal=True)
-    age = st.radio("Age > 75", (False, True), horizontal=True)
-    fevg = st.radio("FEGV < 30%", (False, True), horizontal=True)
-    diabete = st.radio("Diabete", (False, True), horizontal=True)
-    hb = st.radio("Hb < 10 g/dl", (False, True), horizontal=True)
-    bicar = st.radio("Bicar < 10 mmol/l", (False, True), horizontal=True)
-    lactates = st.radio("Lactates > 5 mmol/l", (False, True), horizontal=True)
-    efgr = st.selectbox("eGFR (ml/mn/1,73 m2", (">= 60", "40 to 60", "20 to 40", "<20"))
-
-    score = get_ira_risk_score(hypotension, age, fevg, diabete, hb, bicar, lactates, efgr)
-
-with col2:
-
-    st.subheader("Result")
-    st.write("IRA Risk Score:", score)
+st.subheader("Result")
+st.metric("IRA Risk Score", score)
