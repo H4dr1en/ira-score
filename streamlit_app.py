@@ -34,4 +34,30 @@ efgr = st.selectbox("eGFR (ml/mn/1,73 m2", (">= 60", "40 to 60", "20 to 40", "<2
 score = get_ira_risk_score(hypotension, age, fevg, diabete, hb, bicar, lactates, efgr)
 
 st.subheader("Result")
-st.metric("IRA Risk Score", score)
+
+ira_chance = 0
+if score < 5:
+    ira_chance = 7.5
+if 6 <= score <= 10:
+    ira_chance = 14
+if 11 <= score <= 15:
+    ira_chance = 26
+if score > 15:
+    ira_chance = 57
+
+
+dialysis_chance = 0
+if score < 5:
+    dialysis_chance = 0
+if 6 <= score <= 10:
+    dialysis_chance = 3
+if 11 <= score <= 15:
+    dialysis_chance = 6
+if score > 15:
+    dialysis_chance = 12
+
+
+cols = st.columns(3)
+cols[0].metric("IRA Risk Score", score)
+cols[1].metric("IRA Chance", str(ira_chance) + "%")
+cols[2].metric("Dialysis Chance", str(dialysis_chance) + "%")
